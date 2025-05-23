@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Vida Care</title>
   <style>
     body {
@@ -148,299 +148,17 @@ function levarCama() {
   bebes.forEach(bebe => alert(`${bebe.nome} está dormindo!`));
 }
 
-function iniciarXixi(bebe) {
-  if (!bebe.fazendo) {
-    bebe.fazendo = "xixi";
-    bebe.raiva = "😭";
-    alert(`${bebe.nome} está fazendo xixi...`);
-    setTimeout(() => {
-      bebe.fralda = "🟨";
-      bebe.fazendo = null;
-      if (bebe.sirben) {
-        const fala = Math.random() < 0.5 ? "Me troca" : "Não me troca";
-        alert(`🗣️ ${bebe.nome} diz: "${fala}"`);
-        if (fala === "Não me troca") {
-          bebe.proibidoTrocar = true;
-          setTimeout(() => {
-            bebe.proibidoTrocar = false;
-            if (Math.random() < 0.5) {
-              iniciarXixi(bebe);
-            } else {
-              iniciarCoco(bebe);
-            }
-          }, 10000);
-        }
-      }
-      atualizarTela();
-    }, 10000);
-  }
-}
-
-function iniciarCoco(bebe) {
-  if (!bebe.fazendo) {
-    bebe.fazendo = "cocô";
-    bebe.raiva = "😡";
-    alert(`${bebe.nome} está fazendo cocô...`);
-    setTimeout(() => {
-      bebe.fralda = "🟫";
-      bebe.fazendo = null;
-      if (bebe.sirben) {
-        const fala = Math.random() < 0.5 ? "Me troca" : "Não me troca";
-        alert(`🗣️ ${bebe.nome} diz: "${fala}"`);
-        if (fala === "Não me troca") {
-          bebe.proibidoTrocar = true;
-          setTimeout(() => {
-            bebe.proibidoTrocar = false;
-            if (Math.random() < 0.5) {
-              iniciarXixi(bebe);
-            } else {
-              iniciarCoco(bebe);
-            }
-          }, 10000);
-        }
-      }
-      atualizarTela();
-    }, 10000);
-  }
-}
-
-function contarClicks() {
-  clicksModMenu++;
-  if (clicksModMenu === 3) {
-    abrirModMenu();
-    clicksModMenu = 0;
-  } else {
-    alert(`Cliquei ${clicksModMenu} vez(es), faltam ${3 - clicksModMenu} para abrir o Mod Menu.`);
-  }
-}
-
-function abrirModMenu() {
-  usandoModMenu = true;
-  const menu = document.getElementById("mod-menu");
-  menu.innerHTML = `
-    <button onclick="adicionarBebe()">Adicionar mais bebês</button><br><br>
-    <button onclick="adicionarBebeSirben()">Adicionar Bebê Sirben (Easter Egg)</button><br><br>
-    <button onclick="forcarDiarreia()">Colocar o bebê com diarreia</button>
-    <button onclick="darRemedio()">Dar remédio pro bebê</button><br><br>
-    <button onclick="voltarTelaInicial()">Voltar para tela inicial</button>
-  `;
-  menu.style.display = "block";
-  fazerXixiECoco();
-}
-
-function adicionarBebe() {
-  bebes.push({
-    nome: "👶 Bebê",
-    fralda: "⬜",
-    fome: 0,
-    sede: 0,
-    sono: 0,
-    fazendo: null,
-    raiva: "",
-    diarreia: false,
-    fezCocoComDiarreia: false,
-    sirben: false,
-    podeTrocarFralda: true,
-    pedindoTroca: false,
-    proibidoTrocar: false
-  });
-  atualizarTela();
-}
-
-function adicionarBebeSirben() {
-  bebes.push({
-    nome: "🗣️ Sirben",
-    fralda: "⬜",
-    fome: 0,
-    sede: 0,
-    sono: 0,
-    fazendo: null,
-    raiva: "",
-    diarreia: false,
-    fezCocoComDiarreia: false,
-    sirben: true,
-    podeTrocarFralda: true,
-    pedindoTroca: false,
-    proibidoTrocar: false
-  });
-  atualizarTela();
-}
-
-function forcarDiarreia() {
-  bebes.forEach(bebe => bebe.diarreia = true);
-  alert("Todos os bebês agora têm diarreia!");
-  atualizarTela();
-}
-
 function darRemedio() {
   bebes.forEach(bebe => {
-    bebe.diarreia = false;
-    bebe.fezCocoComDiarreia = false;
-    alert(`${bebe.nome} se curou da diarreia!`);
-  });
-  atualizarTela();
-}
-
-function fazerXixiECoco() {
-  bebes.forEach(bebe => {
-    if (!bebe.fazendo) {
-      bebe.fazendo = "xixi e cocô";
-      bebe.raiva = "😠";
-      bebe.fralda = "🟩";
-      alert(`${bebe.nome} está fazendo xixi e cocô ao mesmo tempo...`);
-      setTimeout(() => {
-        bebe.fralda = "🟩";
-        bebe.fazendo = null;
-        if (bebe.sirben) alert(`🗣️ ${bebe.nome} diz: "Me troca agora!"`);
-        atualizarTela();
-      }, 10000);<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <title>Vida Care</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      background-color: #f0f8ff;
-    }
-    button {
-      margin: 10px;
-      padding: 15px 20px;
-      font-size: 16px;
-      border-radius: 10px;
-      cursor: pointer;
-    }
-    #jogo, #mod-menu {
-      display: none;
-      margin-top: 20px;
-    }
-    #status {
-      margin-top: 20px;
-      font-size: 18px;
-    }
-  </style>
-</head>
-<body>
-
-<!-- TELA INICIAL -->
-<div id="inicio">
-  <h1>Vida Care 👶</h1>
-  <p>Escolha uma opção:</p>
-  <button onclick="iniciarJogo(false)">Cuidar de Bebê Normal</button>
-  <button onclick="iniciarJogo(true)">Cuidar de Bebê Sirben</button>
-</div>
-
-<!-- TELA DO JOGO -->
-<div id="jogo">
-  <h1>Vida Care 👶</h1>
-
-  <div id="botoes">
-    <button onclick="trocarFralda()">Trocar Fralda</button>
-    <button onclick="darMamadeira()">Dar Mamadeira</button>
-    <button onclick="darAgua()">Dar Água</button>
-    <button onclick="darLeite()">Dar Leite</button>
-    <button onclick="levarBerco()">Levar ao Berço</button>
-    <button onclick="darComida()" style="display: none;">Dar Comida</button>
-    <button onclick="levarBanheiro()" style="display: none;">Levar ao Banheiro</button>
-    <button onclick="levarCama()" style="display: none;">Levar à Cama</button>
-    <button onclick="darRemedio()" style="display: none;">Curar Bebê</button>
-  </div>
-
-  <div>
-    <button onclick="contarClicks()">🤨</button>
-  </div>
-
-  <div id="status"></div>
-  <div id="mod-menu"></div>
-</div>
-
-<script>
-let bebes = [];
-let usandoModMenu = false;
-let clicksModMenu = 0;
-
-function iniciarJogo(sirben) {
-  document.getElementById("inicio").style.display = "none";
-  document.getElementById("jogo").style.display = "block";
-
-  bebes = [{
-    nome: sirben ? "🗣️ Sirben" : "👶 Bebê",
-    fralda: "⬜",
-    fome: 0,
-    sede: 0,
-    sono: 0,
-    fazendo: null,
-    raiva: "",
-    diarreia: false,
-    fezCocoComDiarreia: false,
-    sirben: sirben,
-    podeTrocarFralda: true,
-    pedindoTroca: false,
-    proibidoTrocar: false
-  }];
-  atualizarTela();
-}
-
-function atualizarTela() {
-  let status = "";
-  bebes.forEach((bebe, i) => {
-    status += `${i+1}. ${bebe.nome} - Fralda: ${bebe.fralda} ${bebe.raiva}${bebe.diarreia ? " (Diarreia)" : ""}<br>`;
-  });
-  document.getElementById("status").innerHTML = status;
-
-  const botaoTrocar = document.querySelector('button[onclick="trocarFralda()"]');
-  botaoTrocar.disabled = !bebes[0].podeTrocarFralda;
-
-  document.querySelector('button[onclick="darComida()"]').style.display = "none";
-  document.querySelector('button[onclick="levarBanheiro()"]').style.display = "none";
-  document.querySelector('button[onclick="levarCama()"]').style.display = (bebes[0].diarreia) ? "inline-block" : "none";
-}
-
-function trocarFralda() {
-  bebes.forEach(bebe => {
-    if (bebe.fazendo) {
-      alert("O bebê está fazendo xixi ou cocô, não pode trocar a fralda!");
-    } else if (bebe.proibidoTrocar) {
-      alert("Erro 404 ao trocar a fralda: não foi possível trocar a fralda, pois o Sirben já está fazendo de novo.");
-    } else if (bebe.fralda !== "⬜") {
-      bebe.fralda = "⬜";
-      bebe.raiva = "";
-      if (bebe.diarreia) iniciarCoco(bebe);
+    if (bebe.diarreia) {
+      bebe.diarreia = false;
+      bebe.fezCocoComDiarreia = false;
+      alert(`${bebe.nome} foi curado da diarreia!`);
+    } else {
+      alert(`${bebe.nome} não está doente.`);
     }
   });
   atualizarTela();
-}
-
-function darMamadeira() {
-  bebes.forEach(iniciarXixi);
-  atualizarTela();
-}
-
-function darAgua() {
-  bebes.forEach(iniciarXixi);
-  atualizarTela();
-}
-
-function darLeite() {
-  bebes.forEach(iniciarCoco);
-  atualizarTela();
-}
-
-function levarBerco() {
-  bebes.forEach(bebe => alert(`${bebe.nome} está dormindo!`));
-}
-
-function darComida() {
-  bebes.forEach(bebe => alert(`${bebe.nome} está comendo!`));
-}
-
-function levarBanheiro() {
-  bebes.forEach(bebe => alert(`${bebe.nome} foi ao banheiro!`));
-}
-
-function levarCama() {
-  bebes.forEach(bebe => alert(`${bebe.nome} está dormindo!`));
 }
 
 function iniciarXixi(bebe) {
@@ -515,7 +233,7 @@ function abrirModMenu() {
   menu.innerHTML = `
     <button onclick="adicionarBebe()">Adicionar mais bebês</button><br><br>
     <button onclick="adicionarBebeSirben()">Adicionar Bebê Sirben (Easter Egg)</button><br><br>
-    <button onclick="forcarDiarreia()">Colocar o bebê com diarreia</button>
+    <button onclick="forcarDiarreia()">Colocar o bebê com diarreia</button><br>
     <button onclick="darRemedio()">Dar remédio pro bebê</button><br><br>
     <button onclick="voltarTelaInicial()">Voltar para tela inicial</button>
   `;
@@ -562,31 +280,33 @@ function adicionarBebeSirben() {
 }
 
 function forcarDiarreia() {
-  bebes.forEach(bebe => bebe.diarreia = true);
-  alert("Todos os bebês agora têm diarreia!");
-  atualizarTela();
-}
-
-function darRemedio() {
   bebes.forEach(bebe => {
-    bebe.diarreia = false;
-    bebe.fezCocoComDiarreia = false;
-    alert(`${bebe.nome} se curou da diarreia!`);
+    bebe.diarreia = true;
+    bebe.fralda = "🟩"; // Fralda verde para diarreia
+    bebe.raiva = "🤢";
   });
   atualizarTela();
 }
 
 function fazerXixiECoco() {
   bebes.forEach(bebe => {
-    if (!bebe.fazendo) {
-      bebe.fazendo = "xixi e cocô";
-      bebe.raiva = "😠";
-      bebe.fralda = "🟩";
-      alert(`${bebe.nome} está fazendo xixi e cocô ao mesmo tempo...`);
+    if (!bebe.fazendo && !bebe.diarreia) {
+      // Começa xixi ou cocô aleatoriamente para bebês normais
+      if (Math.random() < 0.5) {
+        iniciarXixi(bebe);
+      } else {
+        iniciarCoco(bebe);
+      }
+    } else if (bebe.diarreia && !bebe.fazendo) {
+      // Bebê com diarreia suja a fralda
+      bebe.fazendo = "cocô";
+      bebe.raiva = "🤮";
+      alert(`${bebe.nome} está com diarreia e fazendo cocô...`);
       setTimeout(() => {
-        bebe.fralda = "🟩";
+        bebe.fralda = "🟩"; // fralda verde
         bebe.fazendo = null;
-        if (bebe.sirben) alert(`🗣️ ${bebe.nome} diz: "Me troca agora!"`);
+        bebe.fezCocoComDiarreia = true;
+        alert(`🗣️ ${bebe.nome} diz: "Me troca logo, por favor!"`);
         atualizarTela();
       }, 10000);
     }
@@ -594,20 +314,15 @@ function fazerXixiECoco() {
 }
 
 function voltarTelaInicial() {
-  location.reload();
+  usandoModMenu = false;
+  bebes = [];
+  document.getElementById("mod-menu").style.display = "none";
+  document.getElementById("jogo").style.display = "none";
+  document.getElementById("inicio").style.display = "block";
+  clicksModMenu = 0;
+  atualizarTela();
 }
 </script>
 
 </body>
 </html>
-    }
-  });
-}
-
-function voltarTelaInicial() {
-  location.reload();
-}
-</script>
-
-</body>
-  </html>
